@@ -13,7 +13,9 @@
  * chunk(['a', 'b', 'c', 'd'], 3); // => [['a', 'b', 'c'], ['d']]
  */
 function chunk(array, size) {
-
+    for (var i = Things.length - 1; i >= 0; i--) {
+        Things[i]
+    };
 }
 
 
