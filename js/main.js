@@ -62,14 +62,26 @@ function flatten(arr){
  * @example:
  * intersection([1, 2], [4, 2], [2, 1]) // → [2]
  */
-function intersection() {
-    var result = [];
+function intersection(){
+    var result = [],
+    arrays = [].slice.call(arguments),
+    firstArray = arrays[0],
+        found = false;
 
-    for(var i = 0; i < arr.length; i+=size) {
-        result.push( arr.slice(i, i + size) );
+    for (var i = 0; i < firstArray.length; i++) {
+        for (var j = 1; j < arrays.length; j++) {
+            if(arrays[j].indexOf(firstArray[i]) != -1){
+                found = true;
+            }else{
+                found = false;
+                break;
+            }
+            if(!found)break;
+        }
+        if(found)result.push(firstArray[i]);
+        found = false;
     }
-
-    return result
+    return result;
 }
 
 
