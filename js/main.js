@@ -182,6 +182,18 @@ function zip() {
 }
 
 
+function PrintStructure(Obj, level){
+	if (level==undefined){level=1}
+	var a = [];
+	a.length = level;
+	console.log(a.join("   ")+Obj.name);
+	if("files" in Obj){
+  		level = level+1;
+   		for(var i=0;i<Obj.files.length;i++){
+      		PrintStructure(Obj.files[i],level)
+   		}
+  	}
+}
 
 // Testing
 console.log(
@@ -220,3 +232,32 @@ console.log(
     "zip          ",
     zip(['fred', 'barney'], [30, 40], [true, false])
 );
+
+var folder = {
+    name:'папка 1',
+    files:[
+        {name:'file1'},
+        {name:'file2'},
+        {name:'папка 2', files: [
+            {name:'папка 3', files: [
+                {name:'file3'},
+                {name:'file4'}
+            ]},
+            {name:'папка 44', files: [
+                {name:'папка 5',files: [
+                    {name:'file6'},
+                    {name:'file7'},
+                    {name:'папка 6',files:[]},
+                ]},
+            ]}
+        ]},
+        {name:'File8'},
+        {name:'FOlderxxxX',files: [
+            {name:'File9'},
+            {name:'фывфы 10'}
+        ]}
+    ]
+}
+
+
+PrintStructure(folder);
