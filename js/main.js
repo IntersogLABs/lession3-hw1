@@ -96,13 +96,15 @@ function intersection(){
  * @example:
  * remove([1, 2, 3, 4], function(n) {return n % 2 == 0}); // → [1, 3]
  */
-function remove(array, predicate){
-    for (var i = 0; i < array.length; i++) {
-        if( predicate(array[i]) ){
-            array.splice(i--,1);
+function remove(array, predicate) {
+    var result = array.slice();
+
+    for (var i = 0; i < result.length; i++) {
+        if( predicate(result[i]) ){
+            result.splice(i--,1);
         }
     }
-    return array;
+    return result;
 }
 
 
@@ -117,13 +119,15 @@ function remove(array, predicate){
  * @example:
  * uniq([2, 1, 2]) // → [2, 1]
  */
-function uniq(array){
-    for (var i = 0; i < array.length; i++) {
-       if( array.indexOf(array[i], i + 1) !== -1){
-           array.splice(i--,1);
+function uniq(array) {
+    var result = array.slice();
+
+    for (var i = 0; i < result.length; i++) {
+       if( result.indexOf(result[i], i + 1) !== -1){
+           result.splice(i--,1);
        }
     }
-    return array;
+    return result;
 }
 
 
