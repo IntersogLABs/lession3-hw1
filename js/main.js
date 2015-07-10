@@ -76,7 +76,6 @@ function intersection(){
                 found = false;
                 break;
             }
-            if(!found)break;
         }
         if(found)result.push(firstArray[i]);
         found = false;
@@ -120,7 +119,7 @@ function remove(array, predicate){
  */
 function uniq(array){
     for (var i = 0; i < array.length; i++) {
-       if(array.indexOf(array[i],i + 1) != -1){
+       if( array.indexOf(array[i], i + 1) !== -1){
            array.splice(i--,1);
        }
     }
