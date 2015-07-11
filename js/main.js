@@ -66,19 +66,15 @@ function intersection(){
     var result = [],
     arrays = [].slice.call(arguments),
     firstArray = arrays[0],
-        found = false;
+    otherArrays = arrays.slice(1);
 
     for (var i = 0; i < firstArray.length; i++) {
-        for (var j = 1; j < arrays.length; j++) {
-            if(arrays[j].indexOf(firstArray[i]) != -1){
-                found = true;
-            }else{
-                found = false;
-                break;
-            }
+        var hasInArray = otherArrays.every(function(arr){
+            return arr.indexOf(firstArray[i]) !== -1;
+        });
+        if(hasInArray){
+            result.push(firstArray[i]);
         }
-        if(found)result.push(firstArray[i]);
-        found = false;
     }
     return result;
 }
@@ -167,16 +163,14 @@ function union(){
  */
 function zip(){
     var result = [],
-        arrays = [].slice.call(arguments),
-        group = 0;
+        arrays = [].slice.call(arguments);
 
     for (var i = 0; i < arrays[0].length; i++) {
-        var tmp = [];
+        var tmpArr = [];
         for (var j = 0; j < arrays.length; j++) {
-            tmp.push(arrays[j][group]);
+            tmpArr.push(arrays[j][i]);
         }
-        result.push(tmp);
-        group++;
+        result.push(tmpArr);
     }
     return result;
 }
