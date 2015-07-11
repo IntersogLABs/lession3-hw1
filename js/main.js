@@ -13,7 +13,14 @@
  * chunk(['a', 'b', 'c', 'd'], 3); // => [['a', 'b', 'c'], ['d']]
  */
 function chunk(array, size) {
-
+	var result=[];
+	for(var i=0,k=0;i<array.length;k++) {
+	    result[k]=[];
+		for(var j=0;j<size && i<array.length;j++,i++) {
+			result[k].push(array[i]);
+		}
+	}
+	return result;
 }
 
 
@@ -29,8 +36,20 @@ function chunk(array, size) {
  * @example:
  * flatten([1, [2, 3, [4]]]); // => [1, 2, 3, 4]
  */
-function flatten(array) {
-
+function flatten(arr) {
+	var result=[],tmp;
+	for(var i=0;i<arr.length;i++) {
+		if(Array.isArray(arr[i])) {
+			tmp=flatten(arr[i]);
+			for(var j=0;j<tmp.length;j++) {
+				result.push(tmp[j]);
+			}
+		}
+		else {
+		result.push(arr[i]);
+		}
+	}
+	return result;
 }
 
 
@@ -46,7 +65,19 @@ function flatten(array) {
  * intersection([1, 2], [4, 2], [2, 1]) // → [2]
  */
 function intersection() {
-
+	var result=[];
+	var args = Array.prototype.slice.call(arguments,0);
+	for(var i=0;i<args[0].length;i++) {
+		for(var j=0, len=args.length;j<len;j++) {
+			if(args[j].indexOf(args[0][i])==-1 || result.indexOf(args[0][i])!=-1) {
+				break;
+			}
+			if(j==len-1) {
+				result.push(args[0][i]);
+			}
+		}
+	}
+	return result;
 }
 
 
@@ -62,8 +93,14 @@ function intersection() {
  * @example:
  * remove([1, 2, 3, 4], function(n) {return n % 2 == 0}); // → [1, 3]
  */
-function remove(array, predicate) {
-
+function remove(arr, predicate) {
+	for(var i=0;i<arr.length;i++) {
+		if(predicate(arr[i])) {
+			arr.splice(i,1);
+			i--;
+		}
+	}
+	return arr;
 }
 
 
@@ -78,8 +115,16 @@ function remove(array, predicate) {
  * @example:
  * uniq([2, 1, 2]) // → [2, 1]
  */
-function uniq(array) {
-
+function uniq(arr) {
+	for(var i=0;i<arr.length-1;i++) {
+		for(var j=i+1;j<arr.length;j++) {
+			if(arr[i]==arr[j]) {
+				arr.splice(j,1);
+				j--;
+			}
+		}
+	}
+	return arr;
 }
 
 
@@ -95,7 +140,16 @@ function uniq(array) {
  * union([1, 2], [4, 2], [2, 1]); // → [1, 2, 4]
  */
 function union() {
-
+	var result=[];
+	var args = Array.prototype.slice.call(arguments,0);
+	for(var i=0;i<args.length;i++) {
+		for(var j=0;j<args[i].length;j++) {
+			if(result.indexOf(args[i][j])==-1) {
+				result.push(args[i][j]);
+			}
+		}
+	}
+	return result;
 }
 
 
@@ -112,7 +166,15 @@ function union() {
  * zip(['fred', 'barney'], [30, 40], [true, false]); // → [['fred', 30, true], ['barney', 40, false]]
  */
 function zip() {
-
+	var result=[];
+	var args = Array.prototype.slice.call(arguments,0);
+	for(var i=0;i<args[0].length;i++) {
+		result[i]=[];
+		for(var j=0;j<args.length;j++) {
+			result[i][j]=args[j][i];
+		}
+	}
+	return result;
 }
 
 
