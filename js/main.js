@@ -15,11 +15,11 @@
 function chunk(array, size) {
 	var result = [];
 	var arrayCopy = [];
-	for (var i=0;i<array.length;i++){
-		arrayCopy[i]=array[i];
+	for (var i = 0; i < array.length; i++){
+		arrayCopy[i] = array[i];
   	}
-  	while(arrayCopy.length>0){
-  		result.push(arrayCopy.splice(0,size))
+  	while(arrayCopy.length > 0){
+  		result.push(arrayCopy.splice(0, size))
   	}
   	return result
 }
@@ -39,7 +39,7 @@ function chunk(array, size) {
  */
 function flatten(array) {
 	var result = [];
-	for (var i=0;i<array.length;i++){
+	for (var i = 0; i < array.length; i++){
 		if (Array.isArray(array[i])){
 			result = result.concat(flatten(array[i]))
 		}
@@ -68,10 +68,10 @@ function intersection() {
 		return result
 	}
 	result = arguments[0];
-	for (var i=1;i<arguments.length;i++){
-		for (var j=0;j<result.length;j++){
-			if (arguments[i].indexOf(result[j])==-1){
-				result.splice(j,1);
+	for (var i = 1; i < arguments.length; i++){
+		for (var j = 0; j < result.length; j++){
+			if (arguments[i].indexOf(result[j]) == -1){
+				result.splice(j, 1);
 				j--;
 			}
 		}
@@ -94,8 +94,8 @@ function intersection() {
  */
 function remove(array, predicate) {
 	var result = [];
-	for (var i=0;i<array.length;i++){
-		if (predicate(array[i])==false){
+	for (var i = 0; i < array.length; i++){
+		if (!predicate(array[i])){
 			result.push(array[i])
 		}
 	}
@@ -116,8 +116,8 @@ function remove(array, predicate) {
  */
 function uniq(array) {
 	var result = [];
-	for (var i=0;i<array.length;i++){
-		if (result.indexOf(array[i])==-1){
+	for (var i = 0; i < array.length; i++){
+		if (result.indexOf(array[i]) == -1){
 			result.push(array[i])
 		}
 	}
@@ -138,15 +138,15 @@ function uniq(array) {
  */
 function union() {
 	var result = [];
-	for (var i=0;i<arguments.length;i++){
-		for (var j=0;j<arguments[i].length;j++){
-			if (result.indexOf(arguments[i][j])==-1){
+	for (var i = 0; i < arguments.length; i++){
+		for (var j = 0; j < arguments[i].length; j++){
+			if (result.indexOf(arguments[i][j]) == -1){
 				result.push(arguments[i][j])
 			}
 		}
 	}
 	// или так:
-	// for (var i=0;i<arguments.length;i++){
+	// for (var i = 0; i < arguments.length; i++){
 	// 	result = result.concat(arguments[i]);
 	// }
 	// result = uniq(result);
@@ -169,12 +169,12 @@ function union() {
 function zip() {
 	var result = [];
 	maxLength = 0;
-	for (var i=0;i<arguments.length;i++){
-		maxLength = Math.max(maxLength,arguments[i].length)
+	for (var i = 0; i < arguments.length; i++){
+		maxLength = Math.max(maxLength, arguments[i].length)
 	}
-	for (var i=0;i<maxLength;i++){
+	for (var i = 0; i < maxLength; i++){
 		result.push([])
-		for (var j=0;j<arguments.length;j++){
+		for (var j = 0; j < arguments.length; j++){
 			result[i].push(arguments[j][i])
 		}
 	}
@@ -182,18 +182,7 @@ function zip() {
 }
 
 
-function PrintStructure(Obj, level){
-	if (level==undefined){level=1}
-	var a = [];
-	a.length = level;
-	console.log(a.join("   ")+Obj.name);
-	if("files" in Obj){
-  		level = level+1;
-   		for(var i=0;i<Obj.files.length;i++){
-      		PrintStructure(Obj.files[i],level)
-   		}
-  	}
-}
+
 
 // Testing
 console.log(
@@ -232,32 +221,3 @@ console.log(
     "zip          ",
     zip(['fred', 'barney'], [30, 40], [true, false])
 );
-
-var folder = {
-    name:'папка 1',
-    files:[
-        {name:'file1'},
-        {name:'file2'},
-        {name:'папка 2', files: [
-            {name:'папка 3', files: [
-                {name:'file3'},
-                {name:'file4'}
-            ]},
-            {name:'папка 44', files: [
-                {name:'папка 5',files: [
-                    {name:'file6'},
-                    {name:'file7'},
-                    {name:'папка 6',files:[]},
-                ]},
-            ]}
-        ]},
-        {name:'File8'},
-        {name:'FOlderxxxX',files: [
-            {name:'File9'},
-            {name:'фывфы 10'}
-        ]}
-    ]
-}
-
-
-PrintStructure(folder);
