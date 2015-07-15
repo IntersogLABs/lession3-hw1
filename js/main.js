@@ -83,9 +83,14 @@ function intersection() {
  * remove([1, 2, 3, 4], function(n) {return n % 2 == 0}); // → [1, 3]
  */
 function remove(array, predicate) {
-
+  var newArr = [];
+	for (var i = 0; i < array.length; i++){
+		if (!predicate(array[i])){
+			newArr.push(array[i]);
+		}
+	}
+	return newArr;
 }
-
 
 /**
  * uniq(array);
@@ -99,9 +104,14 @@ function remove(array, predicate) {
  * uniq([2, 1, 2]) // → [2, 1]
  */
 function uniq(array) {
-
+  var uniqArr = [];
+  for(var i = 0; i < array.length; i++) {
+    if(uniqArr.indexOf(array[i]) == -1) {
+  	  uniqArr.push(array[i]);
+  	}
+  }
+  	return uniqArr;
 }
-
 
 /**
  * union(arr1, arr2, arr3, ...);
@@ -114,9 +124,14 @@ function uniq(array) {
  * @example:
  * union([1, 2], [4, 2], [2, 1]); // → [1, 2, 4]
  */
-function union() {
-
-}
+ function union(){
+   unitArr = [];
+   for (var i = 0; i < arguments.length; i++) {
+     unitArr = unitArr.concat(arguments[i])
+     }
+     unitArr = uniq(unitArr);
+     return unitArr;
+ }
 
 
 /**
