@@ -13,8 +13,12 @@
  * chunk(['a', 'b', 'c', 'd'], 3); // => [['a', 'b', 'c'], ['d']]
  */
 function chunk(array, size) {
-
-}
+  chunkArr = [];
+  for(var i = 0; i < array.length; i+= size) {
+    chunkArr.push(array.slice(i, i + size));
+	}
+	return chunkArr;
+ }
 
 
 /**
@@ -30,9 +34,17 @@ function chunk(array, size) {
  * flatten([1, [2, 3, [4]]]); // => [1, 2, 3, 4]
  */
 function flatten(array) {
-
+  var flatArr = [];
+  for (var i = 0; i < array.length; i++) {
+          if(Array.isArray(array[i])) {
+            flatArr = flatArr.concat(flatten(array[i]));
+          }
+          else {
+            flatArr.push(array[i]);
+          }
+  }
+    return flatArr;
 }
-
 
 /**
  * intersection(arr1, arr2, arr3, ...);
@@ -46,7 +58,15 @@ function flatten(array) {
  * intersection([1, 2], [4, 2], [2, 1]) // → [2]
  */
 function intersection() {
-
+  var inArr = arguments[0];
+    for (var i = 1; i < arguments.length; i++){
+      for (var j = 0; j < inArr.length; j++){
+  		  if (arguments[i].indexOf(inArr[j]) == -1){
+  			  inArr.splice(j, 1);
+  			}
+  		}
+  	}
+  	return inArr;
 }
 
 
@@ -102,7 +122,7 @@ function union() {
 /**
  * union(arr1, arr2, arr3, ...);
  *
- * Создает массив сгруппированных элементов, в котором первый массив - 
+ * Создает массив сгруппированных элементов, в котором первый массив -
  * это массив первых элементов входящих массивов, и т.д.
  *
  * @param {...Array} Массивы для группировки
@@ -130,7 +150,7 @@ console.log(
 
 console.log(
     "intersection ",
-    intersection([1, 2], [4, 2], [2, 1]) 
+    intersection([1, 2], [4, 2], [2, 1])
 );
 
 console.log(
@@ -142,7 +162,7 @@ console.log(
 
 console.log(
     "uniq         ",
-    uniq([2, 1, 2]) 
+    uniq([2, 1, 2])
 );
 
 console.log(
