@@ -20,7 +20,6 @@ function chunk(arr, size){
     }
     return result
 }
-
 /**
  * flatten(array);
  *
@@ -33,23 +32,18 @@ function chunk(arr, size){
  * @example:
  * flatten([1, [2, 3, [4]]]); // => [1, 2, 3, 4]
  */
-function flatten(arr){
-    var result = [];
-
-    function concat(arr) {
-        for (var i = 0; i < arr.length; i++) {
-            if (!Array.isArray(arr[i])) {
-                result.push(arr[i]);
-            } else {
-                concat(arr[i]);
-            }
-        }
-    }
-    concat(arr);
-
-    return result
+function flatten(array) {
+	var result = [];
+	for (var i = 0; i < array.length; i++){
+		if (Array.isArray(array[i])){
+			result = result.concat(flatten(array[i]))
+		}
+		else{
+			result.push(array[i])
+		}
+	}
+	return result
 }
-
 
 /**
  * intersection(arr1, arr2, arr3, ...);
