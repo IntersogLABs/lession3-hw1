@@ -12,10 +12,14 @@
  * chunk(['a', 'b', 'c', 'd'], 2); // => [['a', 'b'], ['c', 'd']]
  * chunk(['a', 'b', 'c', 'd'], 3); // => [['a', 'b', 'c'], ['d']]
  */
-function chunk(array, size) {
+function chunk(arr, size){
+    var result = [];
 
+    for(var i = 0; i < arr.length; i+=size){
+        result.push( arr.slice(i, i + size) );
+    }
+    return result
 }
-
 
 /**
  * flatten(array);
@@ -29,8 +33,21 @@ function chunk(array, size) {
  * @example:
  * flatten([1, [2, 3, [4]]]); // => [1, 2, 3, 4]
  */
-function flatten(array) {
+function flatten(arr){
+    var result = [];
 
+    function concat(arr) {
+        for (var i = 0; i < arr.length; i++) {
+            if (!Array.isArray(arr[i])) {
+                result.push(arr[i]);
+            } else {
+                concat(arr[i]);
+            }
+        }
+    }
+    concat(arr);
+
+    return result
 }
 
 
@@ -45,8 +62,21 @@ function flatten(array) {
  * @example:
  * intersection([1, 2], [4, 2], [2, 1]) // → [2]
  */
-function intersection() {
+function intersection(){
+    var result = [],
+    arrays = [].slice.call(arguments),
+    firstArray = arrays[0],
+    otherArrays = arrays.slice(1);
 
+    for (var i = 0; i < firstArray.length; i++) {
+        var hasInArray = otherArrays.every(function(arr){
+            return arr.indexOf(firstArray[i]) !== -1;
+        });
+        if(hasInArray){
+            result.push(firstArray[i]);
+        }
+    }
+    return result;
 }
 
 
@@ -63,7 +93,14 @@ function intersection() {
  * remove([1, 2, 3, 4], function(n) {return n % 2 == 0}); // → [1, 3]
  */
 function remove(array, predicate) {
+    var result = array.slice();
 
+    for (var i = 0; i < result.length; i++) {
+        if( predicate(result[i]) ){
+            result.splice(i--,1);
+        }
+    }
+    return result;
 }
 
 
@@ -79,7 +116,14 @@ function remove(array, predicate) {
  * uniq([2, 1, 2]) // → [2, 1]
  */
 function uniq(array) {
+    var result = array.slice();
 
+    for (var i = 0; i < result.length; i++) {
+       if( result.indexOf(result[i], i + 1) !== -1){
+           result.splice(i--,1);
+       }
+    }
+    return result;
 }
 
 
@@ -94,8 +138,14 @@ function uniq(array) {
  * @example:
  * union([1, 2], [4, 2], [2, 1]); // → [1, 2, 4]
  */
-function union() {
+function union(){
+   var result = [],
+       arrays = [].slice.call(arguments);
 
+    arrays.forEach(function(arr){
+       result = result.concat(arr);
+    })
+    return uniq(result);
 }
 
 
@@ -111,8 +161,18 @@ function union() {
  * @example:
  * zip(['fred', 'barney'], [30, 40], [true, false]); // → [['fred', 30, true], ['barney', 40, false]]
  */
-function zip() {
+function zip(){
+    var result = [],
+        arrays = [].slice.call(arguments);
 
+    for (var i = 0; i < arrays[0].length; i++) {
+        var tmpArr = [];
+        for (var j = 0; j < arrays.length; j++) {
+            tmpArr.push(arrays[j][i]);
+        }
+        result.push(tmpArr);
+    }
+    return result;
 }
 
 
