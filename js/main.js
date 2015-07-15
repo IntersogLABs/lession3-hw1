@@ -13,7 +13,11 @@
  * chunk(['a', 'b', 'c', 'd'], 3); // => [['a', 'b', 'c'], ['d']]
  */
 function chunk(array, size) {
-
+    var res = []
+    for (var i = 0; i < array.length; i += size) {
+        res.push(array.slice(i, i + size))
+    }
+    return res
 }
 
 
@@ -30,7 +34,13 @@ function chunk(array, size) {
  * flatten([1, [2, 3, [4]]]); // => [1, 2, 3, 4]
  */
 function flatten(array) {
-
+    return array.reduce(function (ac, it) {
+        if(Array.isArray(it)){
+            return ac.concat(flatten(it))
+        }
+        ac.push(it)
+        return ac  
+    }, [])
 }
 
 
@@ -46,7 +56,13 @@ function flatten(array) {
  * intersection([1, 2], [4, 2], [2, 1]) // → [2]
  */
 function intersection() {
-
+    var first = arguments[0];
+    var rest = Array.prototype.slice.call(arguments, 1);
+    return first.filter(function(el){
+        return rest.every(function(arr){
+            return arr.indexOf(el) != -1
+        })
+    })
 }
 
 
@@ -63,7 +79,7 @@ function intersection() {
  * remove([1, 2, 3, 4], function(n) {return n % 2 == 0}); // → [1, 3]
  */
 function remove(array, predicate) {
-
+    return array.filter(function(it){return !predicate(it)})
 }
 
 
@@ -79,7 +95,12 @@ function remove(array, predicate) {
  * uniq([2, 1, 2]) // → [2, 1]
  */
 function uniq(array) {
-
+    return array.reduce(function(acc, it){
+        if (acc.indexOf(it) == -1){
+            acc.push(it)
+        }
+        return acc
+    },[])
 }
 
 
@@ -95,12 +116,13 @@ function uniq(array) {
  * union([1, 2], [4, 2], [2, 1]); // → [1, 2, 4]
  */
 function union() {
-
+    var args = Array.prototype.slice.call(arguments);
+    return uniq(flatten(args))
 }
 
 
 /**
- * union(arr1, arr2, arr3, ...);
+ * zip(arr1, arr2, arr3, ...);
  *
  * Создает массив сгруппированных элементов, в котором первый массив - 
  * это массив первых элементов входящих массивов, и т.д.
@@ -112,9 +134,27 @@ function union() {
  * zip(['fred', 'barney'], [30, 40], [true, false]); // → [['fred', 30, true], ['barney', 40, false]]
  */
 function zip() {
-
+    var args = Array.prototype.slice.call(arguments);
+    var len = maxLen(args)
+    var res = []
+    for (var j = 0; j < len; j++){   
+        res.push(args.reduce(function(ac, arr){
+            ac.push(arr[j]);
+            return ac
+        },[]))
+    };
+    return res
 }
 
+function maxLen (arr) {
+    return arr.reduce(function(maxLength, it){
+        var l = it.length 
+        if (l > maxLength) {
+            maxLength = l
+        };
+        return maxLength
+    },0)
+}
 
 
 // Testing
