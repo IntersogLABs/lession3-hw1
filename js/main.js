@@ -12,13 +12,14 @@
  * chunk(['a', 'b', 'c', 'd'], 2); // => [['a', 'b'], ['c', 'd']]
  * chunk(['a', 'b', 'c', 'd'], 3); // => [['a', 'b', 'c'], ['d']]
  */
-function chunk(arr, size){
-    var result = [];
-
-    for(var i = 0; i < arr.length; i+=size){
-        result.push( arr.slice(i, i + size) );
-    }
-    return result
+function chunk(array, size){
+    var res = [];
+	var k = 0;
+	while (k < array.length){
+		res[k/size] = array.slice(k,k+size);
+		k += size;
+	}
+    return res;
 }
 /**
  * flatten(array);
@@ -32,17 +33,17 @@ function chunk(arr, size){
  * @example:
  * flatten([1, [2, 3, [4]]]); // => [1, 2, 3, 4]
  */
-function flatten(array) {
-	var result = [];
-	for (var i = 0; i < array.length; i++){
-		if (Array.isArray(array[i])){
-			result = result.concat(flatten(array[i]))
-		}
-		else{
-			result.push(array[i])
-		}
-	}
-	return result
+function flatten(array){
+    var res = [];
+    for (var i in array){
+        if (Array.isArray(array[i])){
+ 			res = res.concat(flatten(array[i]));
+        }
+        else{
+            res.push(array[i]);
+        }
+    }
+    return res;
 }
 
 /**
@@ -56,21 +57,17 @@ function flatten(array) {
  * @example:
  * intersection([1, 2], [4, 2], [2, 1]) // → [2]
  */
-function intersection(){
-    var result = [],
-    arrays = [].slice.call(arguments),
-    firstArray = arrays[0],
-    otherArrays = arrays.slice(1);
-
-    for (var i = 0; i < firstArray.length; i++) {
-        var hasInArray = otherArrays.every(function(arr){
-            return arr.indexOf(firstArray[i]) !== -1;
-        });
-        if(hasInArray){
-            result.push(firstArray[i]);
-        }
-    }
-    return result;
+function intersection(array){
+	var res = [];
+	var argsLength = arguments.length;
+	for (var i = 0; i < array.length; i++) {
+		var item = array[i];
+		for (var j = 1; j < argsLength; j++){
+			if (arguments[j].indexOf(item) == -1) break;
+		}
+		if (j == argsLength) res.push(item);
+	}
+	return res;
 }
 
 
@@ -86,15 +83,14 @@ function intersection(){
  * @example:
  * remove([1, 2, 3, 4], function(n) {return n % 2 == 0}); // → [1, 3]
  */
-function remove(array, predicate) {
-    var result = array.slice();
-
-    for (var i = 0; i < result.length; i++) {
-        if( predicate(result[i]) ){
-            result.splice(i--,1);
-        }
-    }
-    return result;
+function remove(array, predicate){
+	var res = [];
+	for (var i = 0; i < array.length; i++) {
+		if (!predicate(array[i])) {
+			res.push(array[i]);
+		}
+	}
+	return res;
 }
 
 
@@ -109,15 +105,13 @@ function remove(array, predicate) {
  * @example:
  * uniq([2, 1, 2]) // → [2, 1]
  */
-function uniq(array) {
-    var result = array.slice();
-
-    for (var i = 0; i < result.length; i++) {
-       if( result.indexOf(result[i], i + 1) !== -1){
-           result.splice(i--,1);
-       }
-    }
-    return result;
+function uniq(array){
+	var res = [];
+	res.push(array[0]);
+	for (var i = 1; i < array.length; i++) {
+		if (res.indexOf(array[i]) == -1) res.push(array[i]);
+	}
+	return res;
 }
 
 
@@ -133,13 +127,7 @@ function uniq(array) {
  * union([1, 2], [4, 2], [2, 1]); // → [1, 2, 4]
  */
 function union(){
-   var result = [],
-       arrays = [].slice.call(arguments);
-
-    arrays.forEach(function(arr){
-       result = result.concat(arr);
-    })
-    return uniq(result);
+	return uniq(flatten(arguments));
 }
 
 
@@ -156,19 +144,22 @@ function union(){
  * zip(['fred', 'barney'], [30, 40], [true, false]); // → [['fred', 30, true], ['barney', 40, false]]
  */
 function zip(){
-    var result = [],
-        arrays = [].slice.call(arguments);
-
-    for (var i = 0; i < arrays[0].length; i++) {
-        var tmpArr = [];
-        for (var j = 0; j < arrays.length; j++) {
-            tmpArr.push(arrays[j][i]);
-        }
-        result.push(tmpArr);
-    }
-    return result;
+	var size = arguments[0].length;
+	var res = [];
+	l = arguments.length;
+	
+	for (var i = 1; i < l; i++){
+		if (arguments[i].length < size) size = arguments[i].length;
+	}
+	
+	for (i = 0; i < size; i++){
+		res[i] = [];
+		for (var j = 0; j < l; j++) {
+			res[i].push(arguments[j][i]);
+		}
+	}
+	return res;
 }
-
 
 
 // Testing
