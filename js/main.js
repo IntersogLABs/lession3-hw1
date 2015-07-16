@@ -147,6 +147,15 @@ function uniq(array) {
  * zip(['fred', 'barney'], [30, 40], [true, false]); // → [['fred', 30, true], ['barney', 40, false]]
  */
 function zip() {
+  var zipArr = [];
+	var argsArr = Array.prototype.slice.call(arguments);
+	for(var i = 0; i < argsArr[0].length; i++) {
+		zipArr[i] = [];
+		for(var j = 0; j < argsArr.length; j++) {
+			zipArr[i][j] = argsArr[j][i];
+		}
+	}
+	return zipArr;
 
 }
 
